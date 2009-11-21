@@ -11,7 +11,8 @@ begin
     gem.homepage = "http://github.com/alvarobp/tvdb"
     gem.authors = ["Álvaro Bautista"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.add_dependency "hpricot", ">= 0.8.1"
+    gem.add_dependency "rubyzip", ">= 0.9.1"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

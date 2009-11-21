@@ -25,7 +25,7 @@ module TVdb
       genres = atts.delete("genre")
       atts["genres"] = genres.split('|').select{|a| !a.nil? && !a.empty?} if genres && genres.is_a?(String) && !genres.empty?
       
-      atts["poster"] = TVdb::BANNERS_URL % atts["poster"] unless atts["poster"].nil?
+      atts["poster"] = BANNER_URL % atts["poster"] unless atts["poster"].nil?
       
       super(atts)
     end
@@ -45,4 +45,6 @@ module TVdb
       attributes
     end
   end
+  
+  BANNER_URL = "http://www.thetvdb.com/banners/_cache/%s"
 end

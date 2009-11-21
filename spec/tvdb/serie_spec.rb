@@ -45,7 +45,7 @@ module TVdb
     
     it "should convert poster attribute to a TheTVDB banner url" do
       serie = Serie.new("<Series><poster>posters/80379-1.jpg</poster></Series>")
-      serie.poster.should == TVdb::BANNERS_URL % "posters/80379-1.jpg"
+      serie.poster.should == TVdb::BANNER_URL % "posters/80379-1.jpg"
     end
     
     it "should just be empty for empty xml" do
