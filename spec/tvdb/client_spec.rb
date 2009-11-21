@@ -49,7 +49,6 @@ module TVdb
       
       it "should get the zips of returned results" do
         OpenURI.should_receive(:open_uri).and_return(StringIO.new(@series_xml))
-        # ids: 80379, 73739
         
         @client.should_receive(:get_serie_zip).with("80379", "en").and_return(nil)
         @client.should_receive(:get_serie_zip).with("73739", "en").and_return(nil)
@@ -58,7 +57,6 @@ module TVdb
       
       it "should get the info for each return result in given language" do
         OpenURI.should_receive(:open_uri).and_return(StringIO.new(@series_xml))
-        # ids: 80379, 73739
         
         @client.should_receive(:get_serie_zip).with("80379", "de").and_return(nil)
         @client.should_receive(:get_serie_zip).with("73739", "de").and_return(nil)

@@ -7,11 +7,11 @@ module TVdb
       @urls = Urls.new(api_key)
     end
     
-    def search(title, options={})
+    def search(name, options={})
       default_options = {:lang => 'en'}
       options = default_options.merge(options)
       
-      search_url = @urls[:get_series] % {:name => URI.escape(title), :language => options[:lang]}
+      search_url = @urls[:get_series] % {:name => URI.escape(name), :language => options[:lang]}
       
       doc = Hpricot(OpenURI.open_uri(search_url).read)
       
