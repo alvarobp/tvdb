@@ -75,6 +75,20 @@ module TVdb
         results.map(&:seriesname).sort.should == ["Lost", "The Big Bang Theory"]
       end
       
+      it "should give just the results with exact name" do
+        OpenURI.should_receive(:open_uri).and_return(StringIO.new(<<-XML
+        <Series><id>73739</id><SeriesName>Lost</SeriesName></Series>
+        <Series><id>73420</id><SeriesName>Finder of Lost Loves</SeriesName></Series>
+        <Series><id>98261</id><SeriesName>Lost Evidence</SeriesName></Series>
+        XML
+        ))
+        
+        @client.should_receive(:get_serie_zip).once.with("73739", "en").and_return(Zip::ZipFile.new(@serie2_zip.path))
+        results = @client.search("Lost", :match_mode => :exact)
+        results.size.should == 1
+        results.first.seriesname.should == "Lost"
+      end
+      
       it "should skip unreachable results" do
         OpenURI.should_receive(:open_uri).and_return(StringIO.new(@series_xml))
         

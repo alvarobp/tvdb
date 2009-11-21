@@ -8,14 +8,20 @@ module TVdb
     end
     
     def search(name, options={})
-      default_options = {:lang => 'en'}
+      default_options = {:lang => 'en', :match_mode => :all}
       options = default_options.merge(options)
       
       search_url = @urls[:get_series] % {:name => URI.escape(name), :language => options[:lang]}
       
       doc = Hpricot(OpenURI.open_uri(search_url).read)
       
-      doc.search('series').search('id').map(&:inner_text).map do |sid|
+      ids = if options[:match_mode] == :exact
+        doc.search('series').select{|s| s.search('seriesname').inner_text == name }.collect{|e| e.search('id')}.map(&:inner_text)
+      else
+        doc.search('series').search('id').map(&:inner_text)
+      end
+      
+      ids.map do |sid|
         get_serie_from_zip(sid, options[:lang])
       end.compact
     end
