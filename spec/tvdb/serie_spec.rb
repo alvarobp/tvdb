@@ -14,14 +14,6 @@ module TVdb
       serie.status = "Continuing"
     end
     
-    it "should reject ignored attributes" do
-      serie = Serie.new("<Series><seriesname>The Big Bang Theory</seriesname><zap2it_id>4815162342</zap2it_id><ContentRating>10</ContentRating>", 
-        ["ContentRating", "zap2it_id"])
-      serie.seriesname.should_not be_nil
-      serie.zap2it_id.should be_nil
-      serie.contentrating.should be_nil
-    end
-    
     it "should map id attribute to tvdb_id serie method" do
       serie = Serie.new("<Series><id>4815162342</id></Series>")
       serie.tvdb_id.should == "4815162342"

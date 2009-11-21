@@ -1,15 +1,7 @@
 module TVdb
   class Serie < OpenStruct
-    attr_accessor :ignore_attributes
-    
-    def initialize(xml, ignore_attributes=[])
+    def initialize(xml)
       atts = attributes_from_xml(xml)
-      
-      # Get rid of ignored attributes
-      if ignore_attributes && !ignore_attributes.empty?
-        self.ignore_attributes = ignore_attributes.map(&:downcase)
-        atts.reject!{|k,v| self.ignore_attributes.include?(k.downcase)}
-      end
       
       # Downcase the keys
       atts = atts.inject({}){|options, (k,v)| options[k.downcase] = v; options}
