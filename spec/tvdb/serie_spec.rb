@@ -14,11 +14,6 @@ module TVdb
       serie.status = "Continuing"
     end
     
-    it "should map id attribute to tvdb_id serie method" do
-      serie = Serie.new("<Series><id>4815162342</id></Series>")
-      serie.tvdb_id.should == "4815162342"
-    end
-    
     it "should map actors field to an array" do
       serie = Serie.new("<Series><actors>|Humphrey Bogart|</actors></Series>")
       serie.actors.should == ["Humphrey Bogart"]
@@ -40,13 +35,5 @@ module TVdb
       serie.poster.should == TVdb::BANNER_URL % "posters/80379-1.jpg"
     end
     
-    it "should just be empty for empty xml" do
-      serie = Serie.new("")
-      
-      serie.seriesname.should be_nil
-      serie.tvdb_id.should be_nil
-      serie.actors.should be_nil
-      # ...
-    end
   end
 end
