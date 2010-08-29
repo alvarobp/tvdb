@@ -42,8 +42,28 @@ module TVdb
     
     it "should behave with empty xml" do
       element = Element.new("")
-      
       element.wadus.should be_nil
     end
+    
+    it "should accept already parsed Hpricot documents" do
+      element = Element.new(Hpricot('<Element><attribute1>The one</attribute1><second>2</second><last>inphinity</last></Element>'))
+      element.attribute1.should == "The one"
+      element.second.should == "2"
+      element.last.should == "inphinity"
+    end
+    
+    it "should accept already parsed Hpricot elements" do
+      doc = Hpricot('<Doc><Element><attribute1>The one</attribute1><second>2</second><last>inphinity</last></Element></Doc>')
+      element = Element.new(doc.search('element').first)
+      element.attribute1.should == "The one"
+      element.second.should == "2"
+      element.last.should == "inphinity"
+    end
+    
+    it "should behave with empty Hpricot::Doc objects" do
+      element = Element.new(Hpricot(''))
+      element.wadus.should be_nil
+    end
+    
   end
 end

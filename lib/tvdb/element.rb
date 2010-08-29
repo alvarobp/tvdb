@@ -22,18 +22,26 @@ module TVdb
     protected
     
     def attributes_from_xml(xml)
-      return {} if xml.nil? || xml.empty?
-      doc = Hpricot(xml)
-      
       attributes = {}
+      return attributes if xml.nil? || xml.is_a?(String) && xml.empty?
       
-      element_root = @root_name.nil? ? doc.root : doc.search(@root_name).first
+      element_root = if xml.is_a?(Hpricot::Elem)
+        xml
+      else
+        doc = xml.is_a?(Hpricot::Doc) ? xml : Hpricot(xml)
+        
+        # doc.children.nil? is true for Hpricot('')
+        doc.children.nil? ? doc : (@root_name.nil? ? doc.root : doc.search(@root_name).first)
+      end
       
-      element_root.children.map do |child|
-        unless child.is_a?(Hpricot::Text)
-          attributes[child.name] = child.inner_text
+      if element_root.children
+        element_root.children.map do |child|
+          unless child.is_a?(Hpricot::Text)
+            attributes[child.name] = child.inner_text
+          end
         end
       end
+      
       attributes
     end
   end

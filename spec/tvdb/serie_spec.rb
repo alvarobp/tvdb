@@ -35,5 +35,21 @@ module TVdb
       serie.poster.should == TVdb::BANNER_URL % "posters/80379-1.jpg"
     end
     
+    it "should parse episodes and return them as an array of Element objects" do
+      serie = Serie.new(@serie1_full_xml)
+      
+      serie.episodes.size.should == 55 # There are 55 <Episode> tags in the zip file
+      
+      serie.episodes.first.tvdb_id.should == '1102131'
+      serie.episodes.first.episodename.should == 'Physicist To The Stars'
+      serie.episodes.first.seriesid.should == serie.tvdb_id
+      
+      serie.episodes[1].tvdb_id.should == '1088021'
+      serie.episodes[1].episodename.should == 'Season 2 Gag Reel'
+      
+      serie.episodes.last.tvdb_id.should == '1309961'
+      serie.episodes.last.episodename.should == 'The Maternal Congruence'
+    end
+    
   end
 end
